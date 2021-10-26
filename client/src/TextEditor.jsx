@@ -28,6 +28,21 @@ export default function TextEditor() {
     };
   }, []);
 
+  // Handles Receiving Changes
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+
+    const handler = (delta) => {
+      quill.updateContents(delta);
+    };
+    socket.on('receive-changes', handler);
+
+    return () => {
+      socket.off('receive-changes', handler);
+    };
+  }, [socket, quill]);
+
+  // Handles Storing Changes to be Received by Others
   useEffect(() => {
     if (socket == null || quill == null) return;
 
