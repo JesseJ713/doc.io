@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const Document = require('./Document');
@@ -10,18 +11,18 @@ const server = express()
 const username = process.env.DB_USER;
 const password = process.env.DB_PASS;
 const url = `mongodb+srv://${username}:${password}@docio.60ovg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const connectionParams = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: true,
-  useCreateIndex: true,
-};
-
-mongoose.connect(url, connectionParams);
-const origin = process.env.PORT ? '' : 'http://localhost:3000';
+// const connectionParams = {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false,
+// };
+mongoose.connect(url);
+const origin = process.env.PORT
+  ? 'https://google.com'
+  : 'http://localhost:3000';
 
 const io = require('socket.io')(server, {
-  // TO REMEDY CORS POLICY
   cors: {
     origin: origin,
     methods: ['GET', 'POST'],
@@ -35,9 +36,11 @@ io.on('connection', (socket) => {
     const document = await findOrCreateDocument(documentId);
     socket.join(documentId);
     socket.emit('load-document', document.data);
+
     socket.on('send-changes', (delta) => {
       socket.broadcast.to(documentId).emit('receive-changes', delta);
     });
+
     socket.on('save-document', async (data) => {
       await Document.findByIdAndUpdate(documentId, { data });
     });
@@ -46,7 +49,8 @@ io.on('connection', (socket) => {
 
 async function findOrCreateDocument(id) {
   if (id == null) return;
+
   const document = await Document.findById(id);
   if (document) return document;
-  return await Document.create({ _id, id, data: defaultValue });
+  return await Document.create({ _id: id, data: defaultValue });
 }
