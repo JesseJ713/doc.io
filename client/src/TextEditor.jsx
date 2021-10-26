@@ -100,7 +100,9 @@ export default function TextEditor() {
 
   useEffect(() => {
     const link =
-      process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '';
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:3001'
+        : 'https://docio.netlify.app/';
     const s = io(link);
     setSocket(s);
 

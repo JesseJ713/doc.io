@@ -13,7 +13,7 @@ const password = process.env.DB_PASS;
 const url = `mongodb+srv://${username}:${password}@docio.60ovg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 mongoose.connect(url);
 const origin = process.env.PORT
-  ? 'https://google.com'
+  ? 'https://docio.netlify.app/'
   : 'http://localhost:3000';
 
 const io = require('socket.io')(server, {
