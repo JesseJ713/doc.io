@@ -1,4 +1,5 @@
 import TextEditor from './TextEditor';
+import Footer from './Footer';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +19,7 @@ function App() {
           <TextEditor />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 }
