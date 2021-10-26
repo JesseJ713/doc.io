@@ -11,12 +11,6 @@ const server = express()
 const username = process.env.DB_USER;
 const password = process.env.DB_PASS;
 const url = `mongodb+srv://${username}:${password}@docio.60ovg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-// const connectionParams = {
-//   useNewUrlParser: true,
-//   useCreateIndex: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false,
-// };
 mongoose.connect(url);
 const origin = process.env.PORT
   ? 'https://google.com'

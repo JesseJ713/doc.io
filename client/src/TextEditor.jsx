@@ -33,7 +33,7 @@ export default function TextEditor() {
     if (window.innerWidth > 700) setOption(TOOLBAR_OPTIONS_PC);
     else setOption(TOOLBAR_OPTIONS_MOBILE);
     const debounce = (func, wait, immediate) => {
-      var timeout;
+      let timeout;
       return () => {
         const context = this,
           args = arguments;
@@ -100,9 +100,7 @@ export default function TextEditor() {
 
   useEffect(() => {
     const link =
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3001'
-        : 'https://g-doc.herokuapp.com/';
+      process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '';
     const s = io(link);
     setSocket(s);
 
